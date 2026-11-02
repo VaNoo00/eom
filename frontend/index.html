@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЭОМ — Проверка соединения</title>
+</head>
+<body>
+    <h1>Электронный обучающий модуль</h1>
+
+    <p>Проверка соединения с сервером:</p>
+
+    <button id="check-button">Проверить сервер</button>
+
+    <p id="status">Ожидание проверки...</p>
+
+    <script>
+        const checkButton = document.getElementById("check-button");
+        const statusElement = document.getElementById("status");
+
+        checkButton.addEventListener("click", async () => {
+            statusElement.textContent = "Проверяем соединение...";
+
+            try {
+                const response = await fetch(
+                    "http://localhost:8000/api/health"
+                );
+
+                const data = await response.json();
+
+                statusElement.textContent =
+                    "Состояние сервера: " + data.status;
+
+            } catch (error) {
+                statusElement.textContent =
+                    "Ошибка соединения: " + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
